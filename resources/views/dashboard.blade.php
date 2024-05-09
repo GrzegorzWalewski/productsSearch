@@ -7,13 +7,13 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg grid grid-cols-2 p-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg grid grid-cols-4 p-8">
                 <div>
                     <livewire:ImportProducts />
                     <livewire:status />
                 </div>
-                <div>
-                    <h2 class="text-xl font-semibold text-black dark:text-white">Search for products</h2>
+                <div class="col-span-3">
+                    <livewire:ProductsList />
                 </div>
             </div>
         </div>

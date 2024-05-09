@@ -18,6 +18,11 @@ class Product extends Model
         return $this->belongsTo(PackageType::class, 'package_type_id');
     }
 
+    public function purchasePackageType()
+    {
+        return $this->belongsTo(PackageType::class, 'purchase_package_type_id');
+    }
+
     public function variants()
     {
         return $this->hasMany(Variant::class, 'product_id');
