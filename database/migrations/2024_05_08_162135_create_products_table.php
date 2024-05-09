@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('price_unit');
             $table->integer('purchase_unit_quantity');
             $table->bigInteger('package_type_id')->unsigned();
-            $table->bigInteger('purchase_type_id')->unsigned();
+            $table->bigInteger('purchase_package_type_id')->unsigned();
             $table->timestamps();
         });
 
@@ -33,10 +33,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign(['package_type_id']);
-            $table->dropForeign(['purchase_package_type_id']);
-        });
+        if (config('database.default') !== 'sqlite') {
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropForeign(['package_type_id']);
+                $table->dropForeign(['purchase_package_type_id']);
+            });
+        }
 
         Schema::dropIfExists('products');        
     }

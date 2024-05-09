@@ -33,9 +33,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('variants', function (Blueprint $table) {
-            $table->dropForeign(['product_id']);
-        });
+        if (config('database.default') !== 'sqlite') {
+            Schema::table('variants', function (Blueprint $table) {
+                $table->dropForeign(['product_id']);
+            });
+        }
 
         Schema::dropIfExists('variants');
     }
