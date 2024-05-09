@@ -12,9 +12,16 @@ class ProductsList extends Component
 
     public $search = '';
 
+    public $expanded = false;
+
     public function search()
     {
         $this->resetPage();
+    }
+
+    public function updatingPage($page)
+    {
+        $this->expanded = false;
     }
 
     public function render()
@@ -23,6 +30,6 @@ class ProductsList extends Component
                 ->orWhere('manufacturer', 'like', '%' . $this->search . '%')
                 ->paginate(5);
 
-        return view('livewire.products-list', compact('products'));
+        return view('livewire.products-list', compact('products'))->layoutData(['cache' => ['key' => 'products-list-page-' . request()->page]]);
     }
 }

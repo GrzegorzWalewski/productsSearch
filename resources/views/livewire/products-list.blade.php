@@ -39,10 +39,10 @@
                     </th>
                 </tr>
             </thead>
-            <tbody x-data="{ expanded: false }">
+            <tbody x-data="{ expanded: @entangle('expanded') }">
                 @foreach ($products as $product)
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <tr wire:key="{{ $product->id }}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                         {{$product->name}}
                     </th>
                     <td class="px-6 py-4">
@@ -71,7 +71,7 @@
                 <tr>
                     <td :class="expanded=={{$product->id}} ? '' : 'hidden'" colspan="7">
                         <div>
-                            <livewire:product-details :product="$product" />
+                            <livewire:product-details wire:key="{{ $product->id }}" :product="$product" />
                         </div>
                     </td>
                 </tr>
