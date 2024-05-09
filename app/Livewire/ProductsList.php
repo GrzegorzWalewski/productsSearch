@@ -14,11 +14,6 @@ class ProductsList extends Component
 
     public $expanded = false;
 
-    public function beforeSearch()
-    {
-        $this->resetPage();
-    }
-
     public function updatingPage($page)
     {
         $this->expanded = false;
