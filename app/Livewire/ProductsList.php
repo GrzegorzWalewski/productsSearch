@@ -14,7 +14,7 @@ class ProductsList extends Component
 
     public $expanded = false;
 
-    public function search()
+    public function beforeSearch()
     {
         $this->resetPage();
     }
@@ -30,6 +30,6 @@ class ProductsList extends Component
                 ->orWhere('manufacturer', 'like', '%' . $this->search . '%')
                 ->paginate(5);
 
-        return view('livewire.products-list', compact('products'))->layoutData(['cache' => ['key' => 'products-list-page-' . request()->page]]);
+        return view('livewire.products-list', compact('products'));
     }
 }

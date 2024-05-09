@@ -28,8 +28,8 @@
         <div>
           @if ($purchasePackageQuantity)
             pur pack: {{ float($purchasePackageQuantity) }}
-            pack: {{ float($packageQuantity)}}
-            m2: {{ float($finalPriceUnitQuantity)}}
+            pack: {{ float($packageQuantity) }}
+            m2: {{ float($finalPriceUnitQuantity) }}
           @endif
         </div>
       </div>
