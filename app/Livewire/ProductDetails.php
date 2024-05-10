@@ -22,6 +22,8 @@ class ProductDetails extends Component
 
     public $finalPriceUnitQuantity = null;
 
+    public $error = null;
+
     public function mount($product): void
     {
         $this->product = $product;
@@ -40,7 +42,8 @@ class ProductDetails extends Component
         }
 
         return view('livewire.product-details', [
-            'product' => $this->product
+            'product' => $this->product,
+            'error' => $this->error
         ]);
     }
 
@@ -58,8 +61,18 @@ class ProductDetails extends Component
         $variant = Variant::find($this->selectedVariant);
         $packageClass = PackageType::getPackageClass($packageType);
         
-        $this->purchasePackageQuantity = $packageClass->calculatePurchasePackageQuantity($this->quantity, $variant, $this->product->purchasePackageType->name, $this->product->price_unit, $this->product->purchase_unit_quantity ?? 1);
-        $this->packageQuantity = $packageClass->calculatePackageQuantity($this->purchasePackageQuantity, $this->product->purchasePackageType->name, $this->product->purchase_unit_quantity ?? 1);
-        $this->finalPriceUnitQuantity = $packageClass->calculateFinalPriceUnitQuantity($this->packageQuantity, $variant, $this->product->price_unit);
+        try {
+            $this->purchasePackageQuantity = $packageClass->calculatePurchasePackageQuantity($this->quantity, $variant, $this->product->purchasePackageType->name, $this->product->price_unit, $this->product->purchase_unit_quantity ?? 1);
+            if ($this->product->packageType->name === $this->product->purchasePackageType->name) {
+                $this->packageQuantity = $this->purchasePackageQuantity;
+            } else {
+                $this->packageQuantity = $packageClass->calculatePackageQuantity($this->purchasePackageQuantity, $this->product->purchasePackageType->name, $this->product->purchase_unit_quantity ?? 1);
+            }
+
+            $this->finalPriceUnitQuantity = $packageClass->calculateFinalPriceUnitQuantity($this->packageQuantity, $variant, $this->product->price_unit);
+        } catch (\Error $error) {
+            $this->resetQuantity();
+            $this->error = $error->getMessage();
+        }
     }
 }

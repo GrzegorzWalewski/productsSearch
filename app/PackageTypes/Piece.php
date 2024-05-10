@@ -37,10 +37,13 @@ class Piece extends AbstractPackageType
         switch($this->priceUnit) {
             case 'M2':
                 $maxOnPallet = self::M2_MAX_ON_PALLET;
+                break;
             case 'M3':
                 $maxOnPallet = self::M3_MAX_ON_PALLET;
+                break;
             case 'M':
                 $maxOnPallet = self::M_MAX_ON_PALLET;
+                break;
             default:
                 $maxOnPallet = self::MAX_ON_PALLET;
         }
