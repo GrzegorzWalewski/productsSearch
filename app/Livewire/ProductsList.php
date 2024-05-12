@@ -19,6 +19,11 @@ class ProductsList extends Component
         $this->expanded = false;
     }
 
+    public function startSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $products = Product::where('name', 'like', '%' . $this->search . '%')
