@@ -2,66 +2,32 @@
 
 namespace App\PackageTypes;
 
-use App\PackageTypes\AbstractPackageType;
+use App\Models\PackageType;
 use App\Models\Variant;
 
-class Pallet extends AbstractPackageType
+class Pallet extends PackageType
 {
-    public const TYPE = 'pallet';
-
-    public const M_MAX_ON_PALLET = 200;
-
-    public const M2_MAX_ON_PALLET = 150;
-    public const MAX_ON_PALLET = 1;
-
-    private $priceUnit;
-
-    public function calcSize(Variant $variant, string $priceUnit): float
+    public static function getLimit(string $unit, ?Variant $variant = null): float
     {
-        $this->priceUnit = $priceUnit;
-
-        if ($priceUnit === 'M2') {
-            return ($variant->length / 1000) * ($variant->width / 1000);
-        }
-        
-        return $variant->width / 1000;
-    }
-
-    public function calculatePurchasePackageQuantity(float $quantity, Variant $variant, ?string $purchasePackageType, string $priceUnit, int $purchaseUnitQuantity): int
-    {
-        $this->priceUnit = $priceUnit;
-
-        return ceil($quantity / $this->getMaxQuantityOnPurchasePackage($purchasePackageType, $purchaseUnitQuantity));
-    }
-
-    public function calculateFinalPriceUnitQuantity(int $packageQuantity, Variant $variant, string $priceUnit): float
-    {
-        return $this->getMaxQuantityOnPallet() * $packageQuantity;
-    }
-
-    protected function getMaxQuantityOnPurchasePackage(?string $purchasePackageType, int $purchaseUnitQuantity): int
-    {
-        $maxOnPallet = $this->getMaxQuantityOnPallet();
-
-        switch ($purchasePackageType) {
-            case Pallet::TYPE:
-                return $maxOnPallet * $purchaseUnitQuantity;
-            case Package::TYPE:
-                return $maxOnPallet * $purchaseUnitQuantity * 2;
+        switch ($unit) {
+            case static::UNIT_PIECE:
+                return 400;
+            case static::UNIT_ROLL:
+                return 80;
+            case static::UNIT_PALLET:
+                return 1;
+            case static::UNIT_BOX:
+                return 7;
+            case static::UNIT_PACKAGE:
+                return 2;
+            case static::UNIT_M:
+                return 200;
+            case static::UNIT_M2:
+                return 150;
+            case static::UNIT_M3:
+                return 50;
             default:
-                return $purchaseUnitQuantity;
+                throw new \Exception('Invalid unit');
         }
-    }
-
-    private function getMaxQuantityOnPallet(): int
-    {
-        switch($this->priceUnit) {
-            case 'M2':
-                return self::M2_MAX_ON_PALLET;
-            case 'M':
-                return self::M_MAX_ON_PALLET;
-        }
-
-        return self::MAX_ON_PALLET;
     }
 }

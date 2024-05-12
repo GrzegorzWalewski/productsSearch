@@ -2,15 +2,9 @@
 
 namespace App\PackageTypes;
 
-use App\PackageTypes\AbstractPackageType;
-use App\Models\Variant;
+use App\Models\PackageType;
 
-class Box extends AbstractPackageType
+class Box extends PackageType
 {
-    public const MAX_ON_PALLET = 7;
-
-    public function calcSize(Variant $variant, string $priceUnit): float
-    {
-        return 1;
-    }
+    
 }

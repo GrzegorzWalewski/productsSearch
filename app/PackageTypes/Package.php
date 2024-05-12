@@ -2,16 +2,32 @@
 
 namespace App\PackageTypes;
 
-use App\PackageTypes\AbstractPackageType;
+use App\Models\PackageType;
 use App\Models\Variant;
 
-class Package extends AbstractPackageType
+class Package extends PackageType
 {
-    public const TYPE = 'package';
-    public const MAX_ON_PALLET = 2;
-
-    public function calcSize(Variant $variant, string $priceUnit): float
+    public static function getLimit(string $unit, ?Variant $variant = null): float
     {
-        return ($variant->length / 1000) * ($variant->width / 1000);
+        switch ($unit) {
+            case static::UNIT_PIECE:
+                return 200;
+            case static::UNIT_ROLL:
+                return 40;
+            case static::UNIT_PALLET:
+                return 0.5;
+            case static::UNIT_BOX:
+                return 3.5;
+            case static::UNIT_PACKAGE:
+                return 1;
+            case static::UNIT_M:
+                return 100;
+            case static::UNIT_M2:
+                return 75;
+            case static::UNIT_M3:
+                return 25;
+            default:
+                throw new \Exception('Invalid unit');
+        }
     }
 }

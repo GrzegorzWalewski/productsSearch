@@ -19,6 +19,7 @@ class PackageTypesSeeder extends Seeder
             ['name' => 'box'],
             ['name' => 'pallet'],
             ['name' => 'piece'],
+            ['name' => 'none'],
         ]);
     }
 }

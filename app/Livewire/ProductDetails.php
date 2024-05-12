@@ -58,21 +58,28 @@ class ProductDetails extends Component
     public function calculateFinal(): void
     {
         $packageType = $this->product->packageType->name;
+        $purchasePackageType = $this->product->purchasePackageType->name;
+        $priceUnit = $this->product->price_unit;
         $variant = Variant::find($this->selectedVariant);
-        $packageClass = PackageType::getPackageClass($packageType);
-        
-        try {
-            $this->purchasePackageQuantity = $packageClass->calculatePurchasePackageQuantity($this->quantity, $variant, $this->product->purchasePackageType->name, $this->product->price_unit, $this->product->purchase_unit_quantity ?? 1);
-            if ($this->product->packageType->name === $this->product->purchasePackageType->name) {
-                $this->packageQuantity = $this->purchasePackageQuantity;
-            } else {
-                $this->packageQuantity = $packageClass->calculatePackageQuantity($this->purchasePackageQuantity, $this->product->purchasePackageType->name, $this->product->purchase_unit_quantity ?? 1);
-            }
+        $purchaseUnitQuantity = $this->product->purchase_unit_quantity ?? 1;
 
-            $this->finalPriceUnitQuantity = $packageClass->calculateFinalPriceUnitQuantity($this->packageQuantity, $variant, $this->product->price_unit);
-        } catch (\Error $error) {
-            $this->resetQuantity();
-            $this->error = $error->getMessage();
+        if ($packageType != null)
+        {
+            $packageLimit = PackageType::getPackageLimit($packageType, $purchasePackageType) * $purchaseUnitQuantity;
+            $pieceLimit = PackageType::getPackageLimit($priceUnit, $packageType, $variant);
+            $limit = $packageLimit * $pieceLimit;
+        } else {
+            $limit = PackageType::getPackageLimit($priceUnit, $purchasePackageType, $variant) * $purchaseUnitQuantity;
+        }
+        
+        $this->purchasePackageQuantity = ceil($this->quantity / $limit);
+        $this->finalPriceUnitQuantity = $this->purchasePackageQuantity * $limit;
+
+        if ($packageLimit)
+        {
+            $this->packageQuantity = $this->purchasePackageQuantity * $packageLimit;
+        } else {
+            $this->packageQuantity = null;
         }
     }
 }
