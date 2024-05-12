@@ -19,15 +19,15 @@ class Variant extends Model
     public function getName(): string
     {
         $name = '';
-        $name .= $this->weight ? 'Weight: ' . $this->weight . ' kg | ' : '';
+        $name .= $this->weight ? __('Weight') . ': ' . $this->weight . ' kg | ' : '';
         $name .= $this->diameter ? 'ø ' . $this->diameter . ' mm | ' : '';
-        $name .= $this->length ? 'Length: ' . $this->length . ' mm | ' : '';
-        $name .= $this->width ? 'Width: ' . $this->width . ' mm | ' : '';
-        $name .= $this->height ? 'Height: ' . $this->height . ' mm | ' : '';
-        $name .= $this->thickness ? 'Thickness: ' . $this->thickness . ' mm | ' : '';
+        $name .= $this->length ? __('Length') . ': ' . $this->length . ' mm | ' : '';
+        $name .= $this->width ? __('Width') . ': ' . $this->width . ' mm | ' : '';
+        $name .= $this->height ? __('Height') . ': ' . $this->height . ' mm | ' : '';
+        $name .= $this->thickness ? __('Thickness') . ': ' . $this->thickness . ' mm | ' : '';
 
         if ($name === '') {
-            return 'Main';
+            return __('Main');
         }
 
         return substr($name, 0, -2);
