@@ -1,6 +1,6 @@
 <div>
     <div class="grid grid-cols-2 p-4">
-        <h2 class="text-xl font-semibold text-black dark:text-white my-auto">{{ __('Products') }}Products</h2>
+        <h2 class="text-xl font-semibold text-black dark:text-white my-auto">{{ __('Products') }}</h2>
             <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">{{ __('Search') }}</label>
             <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

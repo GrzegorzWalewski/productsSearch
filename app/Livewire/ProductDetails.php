@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Variant;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use App\Models\PackageType;
 use Illuminate\Contracts\View\Factory;
@@ -14,6 +15,7 @@ class ProductDetails extends Component
 
     public $selectedVariant = null;
 
+    #[Validate('numeric|gt:0')]
     public $quantity = null;
 
     public $packageQuantity = null;
@@ -21,8 +23,6 @@ class ProductDetails extends Component
     public $purchasePackageQuantity = null;
 
     public $finalPriceUnitQuantity = null;
-
-    public $error = null;
 
     public function mount($product): void
     {
@@ -43,7 +43,6 @@ class ProductDetails extends Component
 
         return view('livewire.product-details', [
             'product' => $this->product,
-            'error' => $this->error
         ]);
     }
 
