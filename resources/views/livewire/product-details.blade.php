@@ -1,8 +1,7 @@
 <div class="py-3 mx-3 grid grid-cols-2">
   <div>
     <form class="max-w-sm @if ($product->variants->count() <= 1) hidden @endif">
-      <label for="variants" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Select a
-        variant')
+      <label for="variants" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Select a variant')
         }}</label>
       <select wire:change="resetQuantity" wire:model.live="selectedVariant"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
