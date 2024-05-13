@@ -3,6 +3,9 @@
   Product Search
 </h1>
 
+## Access live project
+Project is temporary available at: https://productssearch.alcony.pl/
+
 ## Run project
 To run You may use [my other repo](https://github.com/GrzegorzWalewski/bitnami-laravel-quickstart)
 
