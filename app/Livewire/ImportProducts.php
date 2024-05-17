@@ -18,6 +18,8 @@ class ImportProducts extends Component
 
     public function save()
     {
+        $this->validate();
+
         Excel::import(new ProductsImport, $this->file);
         Excel::import(new VariantsImport, $this->file);
 
